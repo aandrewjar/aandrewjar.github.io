@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Phone Puncher</title>
+        <style>
+            h1 {
+                top: -2px;
+                position: relative;
+            }
+            
+            #phone {
+                width: 127px;
+                top: -18px;
+                position: relative;
+            }
+            #noPhones {
+                width: 65px;
+                height: 22px;
+                top: 385px;
+                position: absolute;
+                font-family: "Monaco", "Lucida Console", monospace;
+            }
+            #results {
+                top: -19px;
+                position: relative;
+            }
+            #theif {
+                background: rgb(176, 255, 183);
+                width: 218px;
+                height: 22px;
+                top: 342px;
+                position: absolute;
+                font-family: "Monaco", "Lucida Console", monospace;
+            }
+            
+            
+        </style>
+    </head>
+    <body>
+    
+    <h1>Phone Puncher</h1>
+    
+    <img id="phone" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Samsung_Galaxy_Nexus_Render.png" oncLick="">
+    
+    <div id="results">You Clicked <span id="numClicks">0</span> Times</div>
+    
+    <button id ="theif">Buy Theif (<span id="theifCost">10</span> Phones) = <span id = "theifs"> 0 </span></button>
+    
+    <button id="noPhones"> Reset</button>
+     
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+     
+    <script>
+    var numClicks = 0;
+    var theifCost = 10;
+    var theifs = 0;
+    
+    $("#phone").on("click", function(){
+        numClicks = numClicks + 1;
+        $("#results").html("You Clicked " + numClicks + " Times");
+        update()
+    });
+    
+    $("#theif").on("click", function() {
+        if (numClicks >= theifCost) {
+            theifs = theifs + 1;
+            numClicks = numClicks - theifCost;
+            $("#numClicks").html(numClicks);
+            $("#theifCost").html(theifCost);
+            $("#numClicks").html(theifs);
+        }
+    });
+    
+    setInterval(function(){
+        numClicks = numClicks + theifs;
+    }, 1000);
+    
+    
+    $("#noPhones").on("click", function(){
+        $("#results").text("Apple took their phone back :)")
+        numClicks = 0
+    });
+
+    
+    </script>
+
+    </body>
+</html>
