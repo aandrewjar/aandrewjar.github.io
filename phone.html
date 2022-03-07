@@ -17,72 +17,150 @@
             #noPhones {
                 width: 65px;
                 height: 22px;
-                top: 385px;
+                top: 465px;
                 position: absolute;
                 font-family: "Monaco", "Lucida Console", monospace;
             }
             #results {
-                top: -19px;
+                top: -16px;
                 position: relative;
             }
-            #theif {
-                background: rgb(176, 255, 183);
-                width: 218px;
-                height: 22px;
+            #thief {
+                background: rgb(81, 240, 94);
+                width: 300px;
+                height: 30px;
                 top: 342px;
                 position: absolute;
                 font-family: "Monaco", "Lucida Console", monospace;
+            } 
+            #insideMan {
+                background: rgb(98, 112, 240);
+                width: 300px;
+                height: 30px;
+                top: 380px;
+                position: absolute;
+                font-family: "Monaco", "Lucida Console", monospace;
             }
-            
-            
+            #factory {
+                background: rgb(252, 40, 68);
+                width: 300px;
+                height: 30px;
+                top: 420px;
+                position: absolute;
+                font-family: "Monaco", "Lucida Console", monospace;
+            }
+            #disabled {
+                position: absolute;
+                top: 200px;
+                right: 100px;
+                font-size: 14px;
+                width: 30%;
+            }
         </style>
     </head>
     <body>
     
     <h1>Phone Puncher</h1>
     
-    <img id="phone" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Samsung_Galaxy_Nexus_Render.png" oncLick="">
+    <img id="phone" src="https://upload.wikimedia.org/wikipedia/commons/0/0c/Samsung_Galaxy_Nexus_Render.png">
     
     <div id="results">You Clicked <span id="numClicks">0</span> Times</div>
     
-    <button id ="theif">Buy Theif (<span id="theifCost">10</span> Phones) = <span id = "theifs"> 0 </span></button>
+    <button id ="thief">Buy Thief (<span id="thiefCost">10</span> Phones) = <span id = "thiefs"> 0 </span></button>
+
+    <button id ="insideMan">Buy Inside Man (<span id="insideManCost">100</span> Phones) = <span id = "insideMans"> 0 </span></button>
     
+    <button id ="factory">Buy Factory (<span id="factoryCost">500</span> Phones) = <span id = "factorys"> 0 </span></button>    
+
     <button id="noPhones"> Reset</button>
      
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
-     
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
     <script>
+    /* <p id="disabled">You dont have enough phones for that - you fr broker than the joker lamo get gud</p> */
     var numClicks = 0;
-    var theifCost = 10;
-    var theifs = 0;
+    var thiefCost = 10;
+    var thiefs = 0;
+    var insideManCost = 100;
+    var insideMans = 0;
+    var factorys = 0;
+    var factoryCost = 500;
     
     $("#phone").on("click", function(){
         numClicks = numClicks + 1;
-        $("#results").html("You Clicked " + numClicks + " Times");
-        update()
-    });
-    
-    $("#theif").on("click", function() {
-        if (numClicks >= theifCost) {
-            theifs = theifs + 1;
-            numClicks = numClicks - theifCost;
-            $("#numClicks").html(numClicks);
-            $("#theifCost").html(theifCost);
-            $("#numClicks").html(theifs);
+        if (thiefs <= 4) {
+            $("#insideMan").prop("disabled", true)
+        }
+        if (insideMans <= 4) {
+            $("#factory").prop("disabled", true)
         }
     });
     
-    setInterval(function(){
-        numClicks = numClicks + theifs;
-    }, 1000);
-    
-    
-    $("#noPhones").on("click", function(){
-        $("#results").text("Apple took their phone back :)")
-        numClicks = 0
+    $("#thief").on("click", function() {
+        if (numClicks >= thiefCost) {
+            thiefs = thiefs + 1;
+            numClicks = numClicks - thiefCost;
+            thiefCost = thiefCost + thiefs;
+        } else if (numClicks < thiefCost) {
+            numClicks = numClicks + 1000;
+        }
+        if (thiefs >= 5) {
+            $("#insideMan").prop("disabled", false)
+        }
     });
 
+    $("#insideMan").on("click", function() {
+        if (numClicks < insideManCost || $("#insideMan").attr("disabled", true)) {
+
+        }
+        if (numClicks >= insideManCost) {
+            insideMans = insideMans + 1;
+            numClicks = numClicks - insideManCost;
+            insideManCost = insideManCost + (insideMans * 10) + 20;
+        }
+        if (insideMans >= 5) {
+            $("#factory").prop("disabled", false)
+        }
+    });
+
+    $("#factory").on("click", function() {
+        if (numClicks < factoryCost || $("#factory").attr("disabled", true)) {
+
+        }
+        if (numClicks >= factoryCost) {
+            factorys = factorys + 1;
+            numClicks = numClicks - factoryCost;
+            factoryCost = factoryCost + (factorys * 10) + 200;
+        }
+        
+    });
+
+    setInterval(function() {
+        $("#numClicks").html(numClicks);
+        $("#thiefCost").html(thiefCost);
+        $("#thiefs").html(thiefs);
+        $("#insideManCost").html(insideManCost);
+        $("#insideMans").html(insideMans);
+        $("#factoryCost").html(factoryCost);
+        $("#factorys").html(factorys);
+    }, 1);
     
+    setInterval(function(){
+        numClicks = numClicks + thiefs;
+    }, 8000); 
+
+    setInterval(function(){
+        numClicks = numClicks + insideMans;
+    }, 1000); 
+
+    setInterval(function(){
+        numClicks = numClicks + factorys;
+    }, 200);
+    
+    $("#noPhones").on("click", function(){
+        $("#results").html("Apple took their phones back :(")
+        numClicks = 0
+    });
     </script>
 
     </body>
